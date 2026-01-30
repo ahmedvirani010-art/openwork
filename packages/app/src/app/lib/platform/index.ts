@@ -10,6 +10,11 @@
  * @module platform
  */
 
+import type { IPlatformAdapter } from "./types";
+import { TauriAdapter } from "./tauri-adapter";
+import { WebAdapter } from "./web-adapter";
+import { getPlatformMode } from "./detection";
+
 // Types
 export type {
   IPlatformAdapter,
@@ -36,6 +41,9 @@ export {
 export { TauriAdapter } from "./tauri-adapter";
 export { WebAdapter, type WebAdapterConfig } from "./web-adapter";
 
+// File transfer utilities (web mode)
+export * from "../file-transfer";
+
 // Context and hooks
 export {
   PlatformAdapterProvider,
@@ -43,3 +51,13 @@ export {
   useAdapterCapability,
   type PlatformAdapterProviderProps,
 } from "./context";
+
+// Helper function to create the appropriate adapter
+export function createPlatformAdapter(webConfig?: import("./web-adapter").WebAdapterConfig): IPlatformAdapter {
+  const mode = getPlatformMode();
+  if (mode === "desktop") {
+    return new TauriAdapter();
+  } else {
+    return new WebAdapter(webConfig);
+  }
+}
