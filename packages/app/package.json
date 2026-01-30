@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "dev:web": "vite",
-    "build:web": "vite build",
+    "dev:web": "vite --config vite.config.web.ts",
+    "build:web": "vite build --config vite.config.web.ts",
     "preview": "vite preview",
+    "preview:web": "vite preview --config vite.config.web.ts --outDir dist-web",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test:health": "node scripts/health.mjs",
     "test:sessions": "node scripts/sessions.mjs",
@@ -38,6 +39,7 @@
     "jsonc-parser": "^3.2.1",
     "lucide-solid": "^0.562.0",
     "marked": "^17.0.1",
+    "monaco-editor": "^0.52.2",
     "solid-js": "^1.9.0"
   },
   "devDependencies": {
