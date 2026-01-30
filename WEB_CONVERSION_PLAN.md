@@ -857,24 +857,27 @@ const PLATFORM = import.meta.env.VITE_PLATFORM ?? 'web';
 
 ### Immediate Actions
 
-1. **Get stakeholder approval** for this plan
-2. **Set up project board** with all tasks
-3. **Create feature branch** `feat/web-conversion`
-4. **Begin Phase 1** (platform abstraction design)
+1. ✅ **Review feature parity solutions** in `WEB_FEATURE_PARITY_SOLUTIONS.md`
+2. **Get stakeholder approval** for enhanced plan
+3. **Set up project board** with all tasks
+4. **Create feature branch** `feat/web-conversion`
+5. **Begin Phase 1** (platform abstraction design)
 
 ### Team Needs
 
-- **1 Frontend Engineer** - Platform abstraction, UI refactoring
-- **1 DevOps Engineer** - Docker, deployment infrastructure
+- **1 Frontend Engineer** - Platform abstraction, UI refactoring, Monaco Editor
+- **1 Backend Engineer** - Docker API, WebDAV bridge, Owpenbot containerization
+- **1 DevOps Engineer** - Docker, Kubernetes, deployment infrastructure
 - **1 QA Engineer** - Cross-browser testing, validation
 - **Designer** (part-time) - Web-specific UI adjustments
 
 ### Open Questions
 
-1. Should we maintain separate repos or monorepo for web/desktop?
-2. What's the hosted version strategy (cloud offering)?
-3. Do we need a migration tool for existing desktop configs?
-4. Should mobile apps (iOS/Android) use the same web UI or native?
+1. Should we maintain separate repos or monorepo for web/desktop? → **Recommendation: Monorepo**
+2. What's the hosted version strategy (cloud offering)? → **Recommendation: Self-hosted Docker Compose + optional managed hosting**
+3. Do we need a migration tool for existing desktop configs? → **Yes, but simple (workspace.json export/import)**
+4. Should mobile apps (iOS/Android) use the same web UI or native? → **Recommendation: Web UI wrapped in WebView initially**
+5. Should we use WhatsApp Cloud API (Twilio) or keep Baileys? → **Recommendation: Both (user choice)**
 
 ---
 
