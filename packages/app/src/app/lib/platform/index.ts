@@ -4,6 +4,9 @@
  * Provides a unified interface for platform-specific operations,
  * enabling the app to run on both desktop (Tauri) and web (browser).
  *
+ * Note: This is separate from app/context/platform.tsx which handles
+ * basic platform operations (storage, links, notifications).
+ *
  * @module platform
  */
 
@@ -35,8 +38,8 @@ export { WebAdapter, type WebAdapterConfig } from "./web-adapter";
 
 // Context and hooks
 export {
-  PlatformProvider,
-  usePlatform,
-  usePlatformCapability,
-  type PlatformProviderProps,
+  PlatformAdapterProvider,
+  usePlatformAdapter,
+  useAdapterCapability,
+  type PlatformAdapterProviderProps,
 } from "./context";

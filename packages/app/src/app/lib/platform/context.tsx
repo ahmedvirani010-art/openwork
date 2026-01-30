@@ -1,7 +1,8 @@
 /**
- * Platform Context Provider
+ * Platform Adapter Context Provider
  *
- * Provides the platform adapter to all components via Solid.js context
+ * Provides the platform adapter to all components via Solid.js context.
+ * Note: This is separate from app/context/platform.tsx which handles basic platform operations.
  */
 
 import { createContext, useContext, type ParentComponent } from "solid-js";
@@ -11,14 +12,14 @@ import { TauriAdapter } from "./tauri-adapter";
 import { WebAdapter, type WebAdapterConfig } from "./web-adapter";
 
 /**
- * Platform context
+ * Platform Adapter context
  */
-const PlatformContext = createContext<IPlatformAdapter>();
+const PlatformAdapterContext = createContext<IPlatformAdapter>();
 
 /**
- * Platform provider props
+ * Platform Adapter provider props
  */
-export interface PlatformProviderProps {
+export interface PlatformAdapterProviderProps {
   /** Optional adapter override (for testing) */
   adapter?: IPlatformAdapter;
 
@@ -27,16 +28,16 @@ export interface PlatformProviderProps {
 }
 
 /**
- * Platform Provider Component
+ * Platform Adapter Provider Component
  *
  * Automatically selects the appropriate adapter based on the runtime environment.
  * Can be overridden with a custom adapter for testing purposes.
  */
-export const PlatformProvider: ParentComponent<PlatformProviderProps> = (props) => {
+export const PlatformAdapterProvider: ParentComponent<PlatformAdapterProviderProps> = (props) => {
   // Use provided adapter or auto-detect
   const adapter = props.adapter ?? createPlatformAdapter(props.webConfig);
 
-  return <PlatformContext.Provider value={adapter}>{props.children}</PlatformContext.Provider>;
+  return <PlatformAdapterContext.Provider value={adapter}>{props.children}</PlatformAdapterContext.Provider>;
 };
 
 /**
@@ -55,16 +56,16 @@ function createPlatformAdapter(webConfig?: WebAdapterConfig): IPlatformAdapter {
 /**
  * Hook to access platform adapter
  *
- * @throws Error if used outside of PlatformProvider
+ * @throws Error if used outside of PlatformAdapterProvider
  *
  * @example
  * ```tsx
  * function MyComponent() {
- *   const platform = usePlatform();
+ *   const adapter = usePlatformAdapter();
  *
  *   async function handleClick() {
- *     if (platform.capabilities.canManageEngine) {
- *       await platform.engineStart('/path/to/workspace');
+ *     if (adapter.capabilities.canManageEngine) {
+ *       await adapter.engineStart('/path/to/workspace');
  *     }
  *   }
  *
@@ -72,11 +73,11 @@ function createPlatformAdapter(webConfig?: WebAdapterConfig): IPlatformAdapter {
  * }
  * ```
  */
-export function usePlatform(): IPlatformAdapter {
-  const context = useContext(PlatformContext);
+export function usePlatformAdapter(): IPlatformAdapter {
+  const context = useContext(PlatformAdapterContext);
 
   if (!context) {
-    throw new Error("usePlatform must be used within a PlatformProvider");
+    throw new Error("usePlatformAdapter must be used within a PlatformAdapterProvider");
   }
 
   return context;
@@ -88,7 +89,7 @@ export function usePlatform(): IPlatformAdapter {
  * @example
  * ```tsx
  * function EngineControls() {
- *   const canManage = usePlatformCapability('canManageEngine');
+ *   const canManage = useAdapterCapability('canManageEngine');
  *
  *   if (!canManage) {
  *     return <p>Engine management is not available in web mode</p>;
@@ -98,9 +99,9 @@ export function usePlatform(): IPlatformAdapter {
  * }
  * ```
  */
-export function usePlatformCapability(
+export function useAdapterCapability(
   capability: keyof IPlatformAdapter["capabilities"],
 ): boolean {
-  const platform = usePlatform();
-  return platform.capabilities[capability];
+  const adapter = usePlatformAdapter();
+  return adapter.capabilities[capability];
 }
