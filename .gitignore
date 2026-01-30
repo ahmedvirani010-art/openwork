@@ -5,6 +5,8 @@ out/
 dist/
 packages/*/dist/
 packages/*/dist-web/
+*.tar.gz
+*.zip
 
 # Tauri/Rust
 packages/desktop/src-tauri/target/
